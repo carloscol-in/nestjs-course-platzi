@@ -1,6 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateProductDto, UpdateProductDto } from 'src/dtos/products.dto';
-import { Product } from 'src/entities/product.entity';
+import {
+  CreateProductDto,
+  UpdateProductDto,
+} from 'src/products/dtos/products.dto';
+import { Product } from 'src/products/entities/product.entity';
 
 @Injectable()
 export class ProductsService {
@@ -21,13 +24,13 @@ export class ProductsService {
   }
 
   findOne(id: number) {
-    const product = this.products.find((item) => item.id === id);
+    const idx = this.products.findIndex((item) => item.id == id);
 
-    if (!product) {
+    if (idx === -1) {
       throw new NotFoundException(`Product with id=${id} not found`);
     }
 
-    return product;
+    return this.products[idx];
   }
 
   create(payload: CreateProductDto) {
@@ -40,7 +43,7 @@ export class ProductsService {
   }
 
   update(id: number, payload: UpdateProductDto) {
-    const idx = this.products.findIndex((item) => item.id === id);
+    const idx = this.products.findIndex((item) => item.id == id);
 
     if (idx === -1) return false;
 
@@ -56,7 +59,7 @@ export class ProductsService {
   }
 
   delete(id: number) {
-    const idx = this.products.findIndex((item) => item.id === id);
+    const idx = this.products.findIndex((item) => item.id == id);
 
     this.products.splice(idx, 1);
 
