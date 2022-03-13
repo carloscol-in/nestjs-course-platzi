@@ -1,18 +1,39 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, FilterQuery } from 'mongoose';
+import * as _ from 'lodash';
 import {
   CreateProductDto,
+  FilterProductsDto,
   UpdateProductDto,
 } from 'src/products/dtos/product.dto';
 import { Product } from 'src/products/entities/product.entity';
+import { filter } from 'rxjs';
 
 @Injectable()
 export class ProductsService {
   constructor(@InjectModel(Product.name) private productModel: Model<Product>) {}
 
-  async findAll() {
-    return await this.productModel.find().exec();
+  async findAll(params?: FilterProductsDto) {
+    let productsQuery = this.productModel.find();
+    const filters: FilterQuery<Product> = {};
+    const { limit, offset, minPrice, maxPrice } = params;
+
+    if (minPrice >= 0 || maxPrice >= 0) {
+      filters.price = {
+        $gte: minPrice,
+        $lte: maxPrice,
+      };
+      productsQuery.find(filters);
+    }
+
+    productsQuery.find();
+
+    if (!_.isEmpty(params)) {
+      productsQuery.skip(offset).limit(limit)
+    }
+    
+    return await productsQuery.exec();
   }
 
   async findOne(id: string) {
