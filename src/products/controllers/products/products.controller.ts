@@ -5,12 +5,14 @@ import {
   Post,
   Body,
   Put,
-  Delete
+  Delete,
+  Query
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 import { ProductsService } from 'src/products/services/products/products.service';
-import { CreateProductDto } from 'src/products/dtos/product.dto';
+import { CreateProductDto, FilterProductsDto } from 'src/products/dtos/product.dto';
+import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 
 @ApiTags('Products')
 @Controller('products')
@@ -21,12 +23,14 @@ export class ProductsController {
   @ApiOperation({
     summary: 'List all products',
   })
-  async getAll() {
-    return await this.productsService.findAll();
+  async getAll(
+    @Query() params: FilterProductsDto,
+  ) {
+    return await this.productsService.findAll(params);
   }
 
   @Get('/:id')
-  async getSingle(@Param('id') id: string) {
+  async getSingle(@Param('id', MongoIdPipe) id: string) {
     return await this.productsService.findOne(id);
   }
 
@@ -36,12 +40,12 @@ export class ProductsController {
   }
 
   @Put(':id')
-  async update(@Body() payload: object, @Param('id') id: string) {
+  async update(@Body() payload: object, @Param('id', MongoIdPipe) id: string) {
     return await this.productsService.update(id, payload);
   }
 
   @Delete(':id')
-  async destroy(@Param('id') id: string) {
+  async destroy(@Param('id', MongoIdPipe) id: string) {
     return await this.productsService.delete(id);
   }
 }
