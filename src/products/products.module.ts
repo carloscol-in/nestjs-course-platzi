@@ -9,12 +9,17 @@ import { BrandsService } from './services/brands/brands.service';
 import { CategoriesService } from './services/categories/categories.service';
 import { UsersModule } from 'src/users/users.module';
 import { Product, ProductSchema } from 'src/products/entities/product.entity';
+import { Brand, BrandSchema } from './entities/brand.entity';
 
 @Module({
   imports: [forwardRef(() => UsersModule), MongooseModule.forFeature([
     {
       name: Product.name,
       schema: ProductSchema
+    },
+    {
+      name: Brand.name,
+      schema: BrandSchema,
     }
   ])],
   controllers: [ProductsController, BrandsController, CategoriesController],
