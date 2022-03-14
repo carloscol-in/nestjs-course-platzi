@@ -14,7 +14,7 @@ export class ProductsService {
   constructor(@InjectModel(Product.name) private productModel: Model<Product>) {}
 
   async findAll(params?: FilterProductsDto) {
-    let productsQuery = this.productModel.find();
+    let productsQuery = this.productModel.find().populate('brand');
     const filters: FilterQuery<Product> = {};
     const { limit, offset, minPrice, maxPrice } = params;
 
@@ -25,8 +25,6 @@ export class ProductsService {
       };
       productsQuery.find(filters);
     }
-
-    productsQuery.find();
 
     if (!_.isEmpty(params)) {
       productsQuery.skip(offset).limit(limit)
