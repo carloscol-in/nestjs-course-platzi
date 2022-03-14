@@ -8,7 +8,6 @@ import {
   UpdateProductDto,
 } from 'src/products/dtos/product.dto';
 import { Product } from 'src/products/entities/product.entity';
-import { filter } from 'rxjs';
 
 @Injectable()
 export class ProductsService {
