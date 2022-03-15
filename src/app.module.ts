@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { DatabaseModule } from './database/database.module';
 import { environments } from './environments';
+import { OrdersService } from './users/services/orders/orders.service';
 import config from 'src/config';
 
 
