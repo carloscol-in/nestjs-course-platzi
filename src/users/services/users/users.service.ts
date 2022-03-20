@@ -1,11 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Db } from 'mongodb';
 import { Model } from 'mongoose';
 
 import { User } from 'src/users/entities/user.entity';
-import { Order } from 'src/users/entities/order.entity';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dtos/user.dto';
 import { ProductsService } from 'src/products/services/products/products.service';
 
