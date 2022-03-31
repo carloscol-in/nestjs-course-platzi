@@ -18,6 +18,8 @@ import config from 'src/config';
           database,
           host,
           port,
+          synchronize: true,
+          autoLoadEntities: true,
         };
       },
       inject: [config.KEY],

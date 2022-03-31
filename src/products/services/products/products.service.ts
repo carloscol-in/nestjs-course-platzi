@@ -1,4 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import {
   CreateProductDto,
   UpdateProductDto,
@@ -7,62 +10,58 @@ import { Product } from 'src/products/entities/product.entity';
 
 @Injectable()
 export class ProductsService {
-  private counter = 1;
-  private products: Product[] = [
-    {
-      id: 1,
-      name: 'Product 1',
-      description: 'This is a cool product',
-      price: 12,
-      stock: 2,
-      image: 'http://exampleimg.com/640/480',
-    },
-  ];
+  constructor(
+    @InjectRepository(Product) private productRepo: Repository<Product>,
+  ) {}
 
   findAll() {
-    return this.products;
+    return this.productRepo.find();
   }
 
   findOne(id: number) {
-    const idx = this.products.findIndex((item) => item.id == id);
+    const product = this.productRepo.findOne({
+      where: {
+        id,
+      },
+    });
 
-    if (idx === -1) {
-      throw new NotFoundException(`Product with id=${id} not found`);
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found.`);
     }
 
-    return this.products[idx];
+    return product;
   }
 
-  create(payload: CreateProductDto) {
-    const newId = ++this.counter;
-    const newProduct = {
-      id: newId,
-      ...payload,
-    };
-    this.products.push(newProduct);
-  }
+  // create(payload: CreateProductDto) {
+  //   const newId = ++this.counter;
+  //   const newProduct = {
+  //     id: newId,
+  //     ...payload,
+  //   };
+  //   this.products.push(newProduct);
+  // }
 
-  update(id: number, payload: UpdateProductDto) {
-    const idx = this.products.findIndex((item) => item.id == id);
+  // update(id: number, payload: UpdateProductDto) {
+  //   const idx = this.products.findIndex((item) => item.id == id);
 
-    if (idx === -1) return false;
+  //   if (idx === -1) return false;
 
-    this.products[idx] = {
-      ...this.products[idx],
-      ...payload,
-    };
+  //   this.products[idx] = {
+  //     ...this.products[idx],
+  //     ...payload,
+  //   };
 
-    return {
-      id,
-      payload,
-    };
-  }
+  //   return {
+  //     id,
+  //     payload,
+  //   };
+  // }
 
-  delete(id: number) {
-    const idx = this.products.findIndex((item) => item.id == id);
+  // delete(id: number) {
+  //   const idx = this.products.findIndex((item) => item.id == id);
 
-    this.products.splice(idx, 1);
+  //   this.products.splice(idx, 1);
 
-    return id;
-  }
+  //   return id;
+  // }
 }

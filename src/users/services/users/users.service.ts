@@ -38,13 +38,13 @@ export class UsersService {
     return user;
   }
 
-  getOrdersByUser(userId: number): Order {
+  async getOrdersByUser(userId: number): Promise<Order> {
     const user = this.findOne(userId);
 
     return {
       date: new Date(),
       user,
-      products: this.productsService.findAll(),
+      products: await this.productsService.findAll(),
     };
   }
 
