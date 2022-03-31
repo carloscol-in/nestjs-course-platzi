@@ -38,3 +38,4 @@ lerna-debug.log*
 !.example.env
 
 dist/
+postgres_data/
