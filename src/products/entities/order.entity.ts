@@ -1,8 +1,8 @@
 import { User } from 'src/users/entities/user.entity';
-import { Product } from 'src/products/entities/product.entity';
+import { IEntity } from 'src/common/interfaces/entities/entity.interface';
 
 export class Order {
   date: Date;
   user: User;
-  products: Product[];
+  products: IEntity[]; // TODO: change to IProduct
 }
