@@ -10,15 +10,15 @@ import config from 'src/config';
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigType<typeof config>) => {
         const { username, password, host, database, port } =
-          configService.mysql;
+          configService.postgres;
         return {
-          type: 'mysql',
+          type: 'postgres',
           username,
           password,
           database,
           host,
           port,
-          synchronize: true,
+          synchronize: false,
           autoLoadEntities: true,
         };
       },

@@ -6,8 +6,6 @@ import {
   Body,
   Put,
   Delete,
-  HttpStatus,
-  HttpCode,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ParseIntPipe } from 'src/common/parse-int.pipe';

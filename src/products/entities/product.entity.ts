@@ -1,5 +1,5 @@
 import { IEntity } from 'src/common/interfaces/entities/entity.interface';
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, Entity, UpdateDateColumn, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Product implements IEntity {
@@ -20,4 +20,16 @@ export class Product implements IEntity {
 
   @Column({ type: 'varchar' })
   image: string;
+
+  @CreateDateColumn({
+    type: 'timestampz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestampz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
 }
